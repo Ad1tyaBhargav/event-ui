@@ -29,7 +29,7 @@ export default function Dashboard() {
   const fetchEvents = async () => {
     const params = new URLSearchParams(filters).toString();
     const res = await fetch(
-      `http://localhost:5000/api/events?${params}`,
+      `${process.env.REACT_APP_API_BASE_URL}/events?${params}`,
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -46,7 +46,7 @@ export default function Dashboard() {
 
   const importEvent = async id => {
     await fetch(
-      `http://localhost:5000/api/events/${id}/import`,
+      `${process.env.REACT_APP_API_BASE_URL}/events/${id}/import`,
       {
         method: "POST",
         headers: {
