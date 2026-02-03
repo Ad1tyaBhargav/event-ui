@@ -26,8 +26,10 @@ export default function Dashboard() {
 
   const token = localStorage.getItem("token");
 
-  const fetchEvents = async () => {
+  useEffect(() => {
+     const fetchEvents = async () => {
     const params = new URLSearchParams(filters).toString();
+
     const res = await fetch(
       `${process.env.REACT_APP_API_BASE_URL}/events?${params}`,
       {
@@ -36,13 +38,13 @@ export default function Dashboard() {
         }
       }
     );
+
     const data = await res.json();
     setEvents(data.events);
   };
 
-  useEffect(() => {
-    fetchEvents();
-  }, [filters]);
+  fetchEvents();
+  }, [filters, token]);
 
   const importEvent = async id => {
     await fetch(
@@ -56,26 +58,32 @@ export default function Dashboard() {
         body: JSON.stringify({ notes: "Imported via dashboard" })
       }
     );
-    fetchEvents();
+
+    setFilters({ ...filters });      // ✅ now works
     setSelected(null);
   };
 
   return (
     <Container sx={{ mt: 4 }}>
-      <Typography variant="h5" gutterBottom>
-        Event Dashboard
-      </Typography>
-
-      <Button
-        variant="outlined"
-        color="error"
-        onClick={() => {
-          localStorage.removeItem("token");
-          window.location.reload();
-        }}
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ mb: 3 }}
       >
-        Logout
-      </Button>
+        <Typography variant="h5">Event Dashboard</Typography>
+
+        <Button
+          variant="outlined"
+          color="error"
+          onClick={() => {
+            localStorage.removeItem("token");
+            window.location.reload();
+          }}
+        >
+          Logout
+        </Button>
+      </Stack>
 
       {/* Filters */}
       <Stack direction="row" spacing={2} sx={{ mb: 3 }}>

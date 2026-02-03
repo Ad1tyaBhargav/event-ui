@@ -1,4 +1,4 @@
-import { Button, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import GoogleLoginButton from "./GoogleLoginButton";
 
 export default function LoginBar({ onLogin }) {
