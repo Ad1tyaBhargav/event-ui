@@ -18,7 +18,7 @@ export default function TicketModel({ open, onClose, event }) {
   const handleSubmit = async () => {
     if (!email || !consent) return;
 
-    await fetch("http://localhost:5000/api/leads", {
+    await fetch(`${process.env.REACT_APP_API_BASE_URL}/leads`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
